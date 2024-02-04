@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_04_143147) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_04_161752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "disbursement_orders", force: :cascade do |t|
+    t.bigint "disbursement_id", null: false
+    t.bigint "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["disbursement_id"], name: "index_disbursement_orders_on_disbursement_id"
+    t.index ["order_id"], name: "disbursement_orders_order_id_unique", unique: true
+    t.index ["order_id"], name: "index_disbursement_orders_on_order_id"
+  end
+
+  create_table "disbursements", force: :cascade do |t|
+    t.string "reference", limit: 32, null: false
+    t.bigint "merchant_id", null: false
+    t.integer "gross_amount_cents", default: 0, null: false
+    t.string "gross_amount_currency", default: "EUR", null: false
+    t.integer "net_amount_cents", default: 0, null: false
+    t.string "net_amount_currency", default: "EUR", null: false
+    t.integer "fee_amount_cents", default: 0, null: false
+    t.string "fee_amount_currency", default: "EUR", null: false
+    t.integer "fee_minimum_amount_cents", default: 0, null: false
+    t.string "fee_minimum_amount_currency", default: "EUR", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fee_minimum_amount_cents"], name: "index_disbursements_on_fee_minimum_amount_cents"
+    t.index ["merchant_id"], name: "index_disbursements_on_merchant_id"
+    t.index ["reference"], name: "index_disbursements_on_reference"
+  end
 
   create_table "merchants", force: :cascade do |t|
     t.uuid "uuid", null: false
@@ -41,5 +69,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_04_143147) do
     t.index ["disbursed_at"], name: "index_orders_on_disbursed_at"
   end
 
+  add_foreign_key "disbursement_orders", "disbursements"
+  add_foreign_key "disbursement_orders", "orders"
+  add_foreign_key "disbursements", "merchants"
   add_foreign_key "orders", "merchants", column: "merchant_reference", primary_key: "reference"
 end

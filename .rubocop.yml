@@ -18,6 +18,9 @@ AllCops:
   StyleGuideCopsOnly: false
   TargetRubyVersion: 3.2
   SuggestExtensions: false
+Metrics/MethodLength:
+  Exclude:
+  - "db/migrate/*"
 RSpec/MessageSpies:
   Enabled: false
 Gemspec/RequireMFA:
