@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,8 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_240_204_122_252) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_04_124045) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
+
+  create_table "merchants", force: :cascade do |t|
+    t.uuid "uuid", null: false
+    t.string "reference", null: false
+    t.string "disbursement_frequency"
+    t.integer "minimum_monthly_fee_cents", default: 0, null: false
+    t.string "minimum_monthly_fee_currency", default: "EUR", null: false
+    t.date "live_on"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reference"], name: "index_merchants_on_reference", unique: true
+  end
 
 end
