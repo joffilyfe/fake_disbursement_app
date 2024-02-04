@@ -72,7 +72,9 @@ group :test do
 end
 
 gem "sidekiq", "~> 7.2"
-
-gem "rubocop", "~> 1.60"
-
 gem 'money-rails', '~> 1.15'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 6.1.0'
+  gem "rubocop", "~> 1.60"
+end
