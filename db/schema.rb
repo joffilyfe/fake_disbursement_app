@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_04_124045) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_04_143147) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,4 +27,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_04_124045) do
     t.index ["reference"], name: "index_merchants_on_reference", unique: true
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.string "external_id", null: false
+    t.string "merchant_reference", null: false
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "EUR", null: false
+    t.boolean "disbursed", default: false, null: false
+    t.date "disbursed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_orders_on_created_at"
+    t.index ["disbursed"], name: "index_orders_on_disbursed"
+    t.index ["disbursed_at"], name: "index_orders_on_disbursed_at"
+  end
+
+  add_foreign_key "orders", "merchants", column: "merchant_reference", primary_key: "reference"
 end
