@@ -18,6 +18,8 @@ AllCops:
   StyleGuideCopsOnly: false
   TargetRubyVersion: 3.2
   SuggestExtensions: false
+RSpec/MessageSpies:
+  Enabled: false
 Gemspec/RequireMFA:
   Enabled: false
 Gemspec/RequiredRubyVersion:
