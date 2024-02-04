@@ -52,6 +52,7 @@ gem 'bootsnap', require: false
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.1.0'
   gem 'rubocop', '~> 1.60'
   gem 'rubocop-performance'
