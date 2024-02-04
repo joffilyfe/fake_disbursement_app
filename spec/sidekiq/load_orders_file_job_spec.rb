@@ -8,6 +8,7 @@ RSpec.describe LoadOrdersFileJob, type: :job do
     before do
       allow(Dir).to receive(:glob).and_return(['file.csv'])
       allow(File).to receive(:open).and_return(content)
+      allow(File).to receive(:rename)
     end
 
     let(:data) do
@@ -18,7 +19,7 @@ RSpec.describe LoadOrdersFileJob, type: :job do
       DATA
     end
 
-    let(:content) { data.split('\n').lazy }
+    let(:content) { data.split.lazy }
 
     it 'makes the CSV file as .processed' do
       expect(File).to receive(:rename).with('file.csv', 'file.csv.processed')
@@ -26,6 +27,13 @@ RSpec.describe LoadOrdersFileJob, type: :job do
       described_class.new.perform
     end
 
+    it 'spawns N batches ProcessOrdersJob jobs' do
+      allow(ProcessOrdersJob).to receive(:perform_async)
+
+      described_class.new.perform
+
+      expect(ProcessOrdersJob).to have_received(:perform_async).with(content.to_a[1..])
+    end
   end
 
   context 'when there is not file to process' do

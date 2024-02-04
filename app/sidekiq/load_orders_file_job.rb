@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'csv'
-
 class LoadOrdersFileJob
 
   include Sidekiq::Job
@@ -9,7 +7,7 @@ class LoadOrdersFileJob
   def perform
     files.each do |file|
       File.open(file).lazy.drop(1).each_slice(BATCH_SIZE) do |orders|
-        # ProcessOrdersJob.perform_async(orders)
+        ProcessOrdersJob.perform_async(orders)
       end
 
       mark_as_processed!(file)
