@@ -1,0 +1,111 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+AllCops:
+  DisplayCopNames: true
+  Exclude:
+  - "**/scripts/**/**/**/*"
+  - "vendor/**/*"
+  - "**/tmp/**/*"
+  - "**/db/data/**/*"
+  - "**/db/data_schema.rb"
+  - "**/db/schema.rb"
+  - "**/bin/**/*"
+  - "**/node_modules/**/*"
+  MaxFilesInCache: 40000
+  NewCops: enable
+  StyleGuideCopsOnly: false
+  TargetRubyVersion: 3.2
+  SuggestExtensions: false
+Gemspec/RequireMFA:
+  Enabled: false
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+Layout:
+  Exclude:
+    - "**/db/migrate/**/*.rb"
+Layout/ArgumentAlignment:
+  Exclude:
+    - "**/db/migrate/**/*.rb"
+Layout/BlockAlignment:
+  Exclude:
+    - "**/db/migrate/**/*.rb"
+Layout/EmptyLinesAroundClassBody:
+  Description: Keeps track of empty lines around class bodies.
+  Enabled: true
+  EnforcedStyle: empty_lines
+  SupportedStyles:
+    - empty_lines
+    - no_empty_lines
+Layout/ExtraSpacing:
+  Exclude:
+    - "**/db/migrate/**/*.rb"
+Layout/FirstHashElementIndentation:
+  Description: Enforces that the first key in a hash literal where the opening brace and the first key are on separate lines is indented one step more than the position inside the opening parentheses.
+  Enabled: true
+  EnforcedStyle: consistent
+Layout/LineContinuationSpacing:
+  Enabled: false
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: false
+Layout/LineLength:
+  AllowURI: true
+  Description: Limit lines to 120 characters.
+  Enabled: true
+  Exclude:
+    - "lib/tasks/**/*.rake"
+    - "gems/investor/lib/tasks/**/*.rake"
+    - "db/seeds/**/*.rb"
+    - "**/db/migrate/**/*.rb"
+  Max: 120
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#80-character-limits
+  URISchemes:
+    - http
+    - https
+Layout/SpaceBeforeBrackets:
+  Enabled: false
+Layout/TrailingWhitespace:
+  Exclude:
+    - "**/db/migrate/**/*.rb"
+Lint:
+  Exclude:
+    - "**/db/migrate/**/*.rb"
+Rails/SkipsModelValidations:
+  Enabled: false
+  Include:
+    - 'spec/documentation/**/*_spec.rb'
+Style:
+  Exclude:
+    - "**/db/migrate/**/*.rb"
+Style/AccessModifierDeclarations:
+  Enabled: false
+Style/Documentation:
+  Description: Document classes and non-namespace modules.
+  Enabled: false
+Style/EachForSimpleLoop:
+  Enabled: false
+Style/Encoding:
+  Enabled: false
+Style/FormatStringToken:
+  EnforcedStyle: template
+Style/IfUnlessModifier:
+  Exclude:
+    - 'lib/periodic_jobs.rb'
+Style/KeywordParametersOrder:
+  Enabled: false
+Style/LambdaCall:
+  Enabled: false
+Style/MissingRespondToMissing:
+  Enabled: false
+Style/NumericLiteralPrefix:
+  AutoCorrect: false
+Style/RegexpLiteral:
+  Description: Use %r for regular expressions matching more than `MaxSlashes` '/' characters. Use %r only for regular expressions matching more than `MaxSlashes` '/' character.
+  Enabled: false
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#percent-r
+Style/WordArray:
+  Exclude:
+    - "**/db/migrate/**/*.rb"
+Style/HashSyntax:
+  EnforcedShorthandSyntax: 'either'
