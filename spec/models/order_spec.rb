@@ -7,6 +7,7 @@ RSpec.describe Order do
 
   it { is_expected.to belong_to(:merchant) }
   it { is_expected.to have_one(:disbursement) }
+  it { is_expected.to have_one(:fee) }
   it { expect(order.amount).to eq(100.to_money) }
   it { expect(order.amount.format).to eq('€100.00') }
 end

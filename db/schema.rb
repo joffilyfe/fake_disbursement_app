@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_04_161752) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_05_172052) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_04_161752) do
     t.index ["fee_minimum_amount_cents"], name: "index_disbursements_on_fee_minimum_amount_cents"
     t.index ["merchant_id"], name: "index_disbursements_on_merchant_id"
     t.index ["reference"], name: "index_disbursements_on_reference"
+  end
+
+  create_table "fees", force: :cascade do |t|
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "EUR", null: false
+    t.decimal "percentage", null: false
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id"], name: "index_fees_on_owner"
   end
 
   create_table "merchants", force: :cascade do |t|
