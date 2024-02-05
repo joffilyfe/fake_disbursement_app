@@ -21,6 +21,8 @@ AllCops:
 Metrics/MethodLength:
   Exclude:
   - "db/migrate/*"
+RSpec/NamedSubject:
+  Enabled: false
 RSpec/MessageSpies:
   Enabled: false
 Gemspec/RequireMFA:
