@@ -17,6 +17,7 @@ module Units
         ActiveRecord::Base.transaction do
           disbursement
           disburse_orders
+          disbursement
         end
       end
 
@@ -25,15 +26,19 @@ module Units
       attr_reader :merchant, :orders_starts_from, :orders_ends_at, :created_at
 
       def disbursement
-        @disbursement ||= Disbursement.create(
-          reference: SecureRandom.hex,
+        @disbursement ||= Disbursement.create(disbursement_attrs)
+      end
+
+      def disbursement_attrs
+        { reference: SecureRandom.hex,
           merchant:,
           fee_amount:,
           gross_amount:,
           net_amount:,
           orders:,
-          created_at:
-        )
+          fee:,
+          fee_minimum_amount:,
+          created_at: }
       end
 
       def orders
@@ -56,6 +61,14 @@ module Units
 
       def disburse_orders
         orders.update_all(disbursed: true, disbursed_at: Time.zone.today)
+      end
+
+      def fee
+        Subactions::CreateMinimumMonthlyFee.new(merchant:).call
+      end
+
+      def fee_minimum_amount
+        fee&.amount&.to_money
       end
 
     end

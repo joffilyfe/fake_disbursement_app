@@ -2,11 +2,10 @@
 
 FactoryBot.define do
   factory :disbursement do
-    merchant { nil }
-    disbursement_count { 1 }
-    amount { '' }
-    fee_amount { '' }
-    fee_minimum_count { 1 }
-    fee_minimum_amount { '' }
+    association :merchant
+    reference { SecureRandom.hex }
+    gross_amount { 10.to_money }
+    fee_amount { 1.to_money }
+    net_amount { 9.to_money }
   end
 end

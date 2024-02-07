@@ -23,6 +23,10 @@ Metrics/MethodLength:
   - "db/migrate/*"
 RSpec/NamedSubject:
   Enabled: false
+RSpec/NestedGroups:
+  Exclude:
+  - "spec/core/units/create_disbursement/entry_point_spec.rb"
+  - "spec/core/units/create_disbursement/subactions/create_minimum_monthly_fee_spec.rb"
 RSpec/MessageSpies:
   Enabled: false
 Gemspec/RequireMFA:
