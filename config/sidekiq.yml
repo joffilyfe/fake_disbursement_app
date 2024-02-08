@@ -1,0 +1,11 @@
+:scheduler:
+  :schedule:
+    disbursement:
+      cron: '50 19 * * * Europe/London'
+      class: DisburseOrdersJob
+    load_merchants:
+      cron: '*/2 * * * * Europe/London'
+      class: LoadMerchantsFileJob
+    load_orders:
+      cron: '*/10 * * * * Europe/London'
+      class: LoadOrdersFileJob

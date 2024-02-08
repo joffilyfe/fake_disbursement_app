@@ -82,3 +82,4 @@ end
 
 gem 'money-rails', '~> 1.15'
 gem 'sidekiq', '~> 7.2'
+gem 'sidekiq-scheduler'
