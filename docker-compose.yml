@@ -1,0 +1,62 @@
+version: "3.5"
+services:
+  db:
+    image: postgres:14.10
+    container_name: db
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+  redis:
+    image: redis
+    container_name: redis
+    volumes:
+      - redis:/var/lib/redis/data:cached
+
+  sidekiq:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=postgres
+      - DATABASE_PASS=password
+      - REDIS_URL=redis://redis:6379/0
+      - MERCHANT_FILE_DIRECTORY=/files/merchants/*
+      - ORDER_FILE_DIRECTORY=/files/orders/*
+    command: bundle exec sidekiq
+    volumes:
+      - ./files/orders:/files/orders
+      - ./files/merchants:/files/merchants
+    depends_on:
+      - redis
+      - db
+
+  web:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=postgres
+      - DATABASE_PASS=password
+      - REDIS_URL=redis://redis:6379/0
+      - MERCHANT_FILE_DIRECTORY=/files/merchants/*
+      - ORDER_FILE_DIRECTORY=/files/orders/*
+    command: bundle exec rails server -b 0.0.0.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./files/orders:/files/orders
+      - ./files/merchants:/files/merchants
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  redis:
+    driver: local
+  postgres:
+    driver: local

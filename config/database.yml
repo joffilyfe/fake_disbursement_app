@@ -21,6 +21,13 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+  host: <%= ENV["DATABASE_HOST"] || '127.0.0.1' %>
+  username: <%= ENV["DATABASE_USER"] || 'root' %>
+  password: <%= ENV["DATABASE_PASS"] || '' %>
+  pool: <%= ENV["DATABASE_POOL"] || ENV['SIDEKIQ_CONCURRENCY'] || ENV["RAILS_MAX_THREADS"] || 5  %>
+  port: <%= ENV["DATABASE_PORT"] || '5432' %>
+  reconnect: true
+
 development:
   <<: *default
   database: fake_development
